@@ -64,6 +64,7 @@ NSString *const FXFormFieldFooter = @"footer";
 NSString *const FXFormFieldInline = @"inline";
 NSString *const FXFormFieldSortable = @"sortable";
 NSString *const FXFormFieldViewController = @"viewController";
+NSString *const FXFormFieldXib = @"xib";
 
 NSString *const FXFormFieldTypeDefault = @"default";
 NSString *const FXFormFieldTypeLabel = @"label";
@@ -627,6 +628,11 @@ static void FXFormPreprocessFieldDictionary(NSMutableDictionary *dictionary)
         {
             dictionary[FXFormFieldTitle] = NSLocalizedString(output, nil);
         }
+    }
+    
+    //get field xib name if declared
+    if (!dictionary[FXFormFieldXib]) {
+        dictionary[FXFormFieldXib]=[NSString stringWithFormat:@"%@",dictionary[FXFormFieldXib]];
     }
 }
 
@@ -2122,6 +2128,12 @@ static void FXFormPreprocessFieldDictionary(NSMutableDictionary *dictionary)
     if ([nibName rangeOfString:@"."].location != NSNotFound) {
         nibName = nibName.pathExtension; //Removes Swift namespace
     }
+    
+    //if xib name is mentioned use same xib name to load with class
+    if (field.xib && field.xib.length) {
+        nibName = field.xib;
+    }
+
     if ([[NSBundle mainBundle] pathForResource:nibName ofType:@"nib"])
     {
         //load cell from nib
