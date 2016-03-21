@@ -631,7 +631,7 @@ static void FXFormPreprocessFieldDictionary(NSMutableDictionary *dictionary)
     }
     
     //get field xib name if declared
-    if (!dictionary[FXFormFieldXib]) {
+    if (dictionary[FXFormFieldXib]) {
         dictionary[FXFormFieldXib]=[NSString stringWithFormat:@"%@",dictionary[FXFormFieldXib]];
     }
 }
